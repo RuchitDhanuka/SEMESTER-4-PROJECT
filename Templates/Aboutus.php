@@ -15,7 +15,7 @@ $username = $_SESSION['username'];
 </head>
 
 <body>
-<header class="gradient-bg">
+  <header class="gradient-bg">
     <nav>
       <div class="logo">
         <a href="/Templates/home_after_login.php">HomeHive</a>
@@ -44,15 +44,7 @@ $username = $_SESSION['username'];
         <br><br>
         <div class="company-details">
           <h1>Our Company</h1>
-          <p>HomeHive is your ultimate destination for contemporary living essentials, specializing in smart home and kitchen appliances, sustainable furniture, and stylish home decor. We pride ourselves on offering a carefully curated selection of products that combine functionality, innovation, and eco-consciousness.
-
-Our smart home appliances are designed to streamline your daily tasks, enhance convenience, and elevate your living experience. From smart lighting systems to energy-efficient appliances, we bring cutting-edge technology into your home, making it more efficient, secure, and comfortable.
-
-In the realm of furniture, HomeHive champions sustainability without compromising on style. Our furniture collection features timeless designs crafted from ethically sourced materials, promoting durability, aesthetics, and environmental responsibility. Each piece is chosen to complement modern living spaces while reducing our ecological footprint.
-
-Complementing our smart solutions and sustainable furniture is our exquisite home decor range. Discover unique and stylish decor items that add personality, charm, and sophistication to your home.
-
-At HomeHive, we are committed to providing high-quality products, innovative solutions, and exceptional customer service. Join us in creating spaces that blend modern living with sustainability, where every piece tells a story of style, functionality, and conscious living.</p>
+          <p>HomeHive is your ultimate destination for contemporary living essentials, specializing in smart home and kitchen appliances, sustainable furniture, and stylish home decor. We pride ourselves on offering a carefully curated selection of products that combine functionality, innovation, and eco-consciousness.Our smart home appliances are designed to streamline your daily tasks, enhance convenience, and elevate your living experience. From smart lighting systems to energy-efficient appliances, we bring cutting-edge technology into your home, making it more efficient, secure, and comfortable. In the realm of furniture, HomeHive champions sustainability without compromising on style. Our furniture collection features timeless designs crafted from ethically sourced materials, promoting durability, aesthetics, and environmental responsibility. Each piece is chosen to complement modern living spaces while reducing our ecological footprint.Complementing our smart solutions and sustainable furniture is our exquisite home decor range. Discover unique and stylish decor items that add personality, charm, and sophistication to your home.At HomeHive, we are committed to providing high-quality products, innovative solutions, and exceptional customer service. Join us in creating spaces that blend modern living with sustainability, where every piece tells a story of style, functionality, and conscious living.</p>
         </div>
       </div>
     </div>
@@ -60,7 +52,7 @@ At HomeHive, we are committed to providing high-quality products, innovative sol
       <h2>Contact Information</h2>
       <p><i class="fas fa-phone"></i> Phone: 91 6000924957</p>
       <p><i class="far fa-envelope"></i> Email: <a href="mailto:homehive63@gmail.com">homehive63@gmail.com</a></p>
-      <p><i class="fas fa-map-marker-alt"></i>  Sg Palya , Bangalore </p>
+      <p><i class="fas fa-map-marker-alt"></i> Sg Palya , Bangalore </p>
     </div>
     <h2 class="team-heading">Our Team Members</h2>
     <div class="team-members">
