@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #136946;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #136946;
+    margin-top: 40px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li:before {
+    content: "\2022";
+    color: #136946;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.contact-link {
+    display: inline-block;
+    color: #136946;
+    text-decoration: none;
+    border-bottom: 1px solid #136946;
+    transition: border-bottom 0.3s ease;
+}
+
+.contact-link:hover {
+    border-bottom: 1px solid transparent;
+}
+
+.bold {
+    font-weight: bold;
+}

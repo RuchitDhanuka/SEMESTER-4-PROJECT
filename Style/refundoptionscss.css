@@ -1,0 +1,73 @@
+body {
+    background-color: #f3f5f9;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+}
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+}
+.options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.option {
+    margin-right: 20px;
+}
+.option input[type="radio"] {
+    display: none;
+}
+.option label {
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.option input[type="radio"]:checked + label {
+    background-color: #4CAF50;
+    color: #fff;
+}
+.confirm-button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.confirm-button:hover {
+    background-color: #45a049;
+}
+.confirm-button i {
+    margin-right: 5px;
+}
+.upi-input {
+    display: none;
+    margin-top: 20px;
+}
+.upi-input input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}

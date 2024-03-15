@@ -1,0 +1,139 @@
+.options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  
+  .profile-option {
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0);
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #333;
+  }
+  .profile-option a{
+    text-decoration: none;
+  }
+  
+  .profile-option:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0);
+  }
+  
+  .profile-option img {
+    width: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-option p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .profile p {
+    margin: 0;
+    font-size: 20px;
+    color: #fff;
+    margin-right: 20px;
+  }
+  
+  .profile span {
+    font-weight: bold;
+  }
+  
+  .cart-icon img {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+  }
+  
+  .cart-icon:hover img {
+    transform: scale(1.1);
+  }
+  
+  
+  .profile-option i {
+    font-size: 40px;
+    color: #1e6f5c;
+    margin-bottom: 10px;
+  }
+  
+  .profile-option p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .profile-option:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f4f4f4; 
+  }
+  
+
+.profile-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 20px;
+  }
+  
+  .user-info {
+    text-align: center;
+  }
+  
+  .user-info img {
+    width: 120px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .user-info h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .user-info p {
+    margin: 5px 0;
+    color: #777;
+  }
+  .Terms {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0);
+}
+
+.Terms h2 {
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.Terms p {
+    color: #555;
+    line-height: 1.6;
+}
+
+  
+  #recent-orders, #account-settings {
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3
+  }  
