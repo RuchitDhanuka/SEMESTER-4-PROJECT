@@ -50,13 +50,13 @@ $user=$_SESSION['username'];
     <p>We have a <span class="bold">30-day return policy</span> for most items purchased through our website. Items must be returned in their original condition and packaging.</p>
 
     <h2>5. Mode of Payments</h2>
-    <p>We accept various modes of payment including credit/debit cards, PayPal, and bank transfers. All payments are processed securely through our payment gateway provider.</p>
+    <p>We accept various modes of payment including credit/debit cards, UPI,Cash on Delivery, Wallet and we also offer Crypto payments. All payments are processed securely through our payment gateway provider.</p>
 
     <h2>6. Business Query Contact</h2>
     <p>For business queries and partnership opportunities, please contact us at <a class="contact-link" href="mailto:homehive63@gmail.com">homehive63@gmail.com</a>.</p>
 
     <h2>7. Product Categories</h2>
-    <p>Our website offers a wide range of products across various categories including electronics, fashion, home decor, and more. Browse our <a class="contact-link" href="/SEMESTER 4 PROJECT/Templates/Categories.php">Product Categories</a> to explore our offerings.</p>
+    <p>Our website offers a wide range of products across various categories including furnitures,home decor and kitchen appliances. Browse our <a class="contact-link" href="/SEMESTER 4 PROJECT/Templates/Categories.php">Product Categories</a> to explore our offerings.</p>
 
     <h2>8. Changes to Terms</h2>
     <p>We reserve the right, at our sole discretion, to modify or replace these terms and conditions at any time. If a revision is material, we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>

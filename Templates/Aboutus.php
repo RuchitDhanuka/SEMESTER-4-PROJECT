@@ -44,7 +44,15 @@ $username = $_SESSION['username'];
         <br><br>
         <div class="company-details">
           <h1>Our Company</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non aliquam quisquam temporibus expedita nemo maiores dolores perferendis eveniet, repellendus sapiente Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, atque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus cum rerum inventore atque optio, iste, vitae consequatur nam quas, excepturi voluptatum earum suscipit laudantium mollitia. Atque perferendis, voluptatem eum officiis ad quisquam, iure tempora saepe quidem cum harum nobis tempore reiciendis laborum veniam minima a. Beatae omnis earum deserunt unde.</p>
+          <p>HomeHive is your ultimate destination for contemporary living essentials, specializing in smart home and kitchen appliances, sustainable furniture, and stylish home decor. We pride ourselves on offering a carefully curated selection of products that combine functionality, innovation, and eco-consciousness.
+
+Our smart home appliances are designed to streamline your daily tasks, enhance convenience, and elevate your living experience. From smart lighting systems to energy-efficient appliances, we bring cutting-edge technology into your home, making it more efficient, secure, and comfortable.
+
+In the realm of furniture, HomeHive champions sustainability without compromising on style. Our furniture collection features timeless designs crafted from ethically sourced materials, promoting durability, aesthetics, and environmental responsibility. Each piece is chosen to complement modern living spaces while reducing our ecological footprint.
+
+Complementing our smart solutions and sustainable furniture is our exquisite home decor range. Discover unique and stylish decor items that add personality, charm, and sophistication to your home.
+
+At HomeHive, we are committed to providing high-quality products, innovative solutions, and exceptional customer service. Join us in creating spaces that blend modern living with sustainability, where every piece tells a story of style, functionality, and conscious living.</p>
         </div>
       </div>
     </div>
@@ -59,10 +67,10 @@ $username = $_SESSION['username'];
       <div class="team-member">
         <img src="/SEMESTER 4 PROJECT/Assets/Team/WhatsApp Image 2024-02-04 at 13.44.51_5884cf38.jpg" alt="Team Member 1">
         <div class="social-icons">
-          <a href="#"><i class="fab fa-google"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="mailto:ruchitdhanuka6@gmail.com"><i class="fab fa-google"></i></a>
+          <a href="https://x.com/ruchit_dhanuka?t=UTTWBrvPlx9H9yF7Hsj7iw&s=08"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/ruchit_2003?igsh=Njd3d3FkcmNpdzB4"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/ruchit-dhanuka-106150252"><i class="fab fa-linkedin"></i></a>
         </div>
       </div>
       <div class="team-member">

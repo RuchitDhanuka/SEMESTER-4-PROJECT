@@ -31,6 +31,7 @@ function send_email($email, $subject, $message)
         return 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
     }
 }
+
 $servername = "localhost";
 $username = "root";
 $password = "ruchit19";
@@ -87,6 +88,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $paymentId = mt_rand(100000, 999999);
+
+    if ($paymentMode === 'wallet') {
+        // Check user's wallet balance
+        $checkBalanceQuery = "SELECT balance FROM userwallet WHERE user_id = '$userId'";
+        $balanceResult = $conn->query($checkBalanceQuery);
+
+        if ($balanceResult->num_rows > 0) {
+            $balanceRow = $balanceResult->fetch_assoc();
+            $walletBalance = $balanceRow['balance'];
+
+            // Check if wallet balance is sufficient for payment
+            if ($walletBalance >= $cartTotal) {
+                // Deduct cart amount from wallet balance
+                $newBalance = $walletBalance - $cartTotal;
+                $updateBalanceQuery = "UPDATE userwallet SET balance = '$newBalance' WHERE user_id = '$userId'";
+                if ($conn->query($updateBalanceQuery) !== TRUE) {
+                    echo "Error updating wallet balance: " . $conn->error;
+                    exit();
+                }
+            } else {
+                echo "Insufficient balance in your wallet. Please choose another payment method.";
+                exit();
+            }
+        } else {
+            echo "Error fetching wallet balance.";
+            exit();
+        }
+    }
 
     $insertPaymentQuery = "INSERT INTO payment (payment_id, order_id, payment_mode, amount, payment_time) VALUES ('$paymentId', LAST_INSERT_ID(), '$paymentMode', '$cartTotal', NOW())";
     if ($conn->query($insertPaymentQuery) !== TRUE) {
@@ -152,7 +181,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
     <header class="gradient-bg">
         <nav>
@@ -216,23 +244,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             Pay through Card
                         </label>
                     </div>
+                    <div class="option">
+                        <label for="wallet-payment">
+                            <img src="/SEMESTER 4 PROJECT/Assets/Icons/wallet.png" alt="Pay through Wallet">
+                            <input type="radio" id="wallet-payment" name="payment-method" value="wallet">
+                            Pay through Wallet
+                        </label>
+                    </div>
                 </div>
                 <!-- Additional info dialog -->
                 <div id="additional-info-dialog" class="additional-info-dialog">
-    <div class="additional-info-content">
-        <!-- Additional information will be dynamically inserted here -->
-        <span class="close-btn" onclick="closeAdditionalInfoDialog()">&times;</span>
-        <div class="info-container">
-            <h3 id="additional-info-title">Additional Information</h3>
-            <p id="additional-info-text">No additional information available.</p>
-            <input type="file" id="image-upload" accept="image/*" style="display: block; margin-top: 10px;">
-            <button onclick="uploadImage()">Confirm</button>
-            <div id="image-preview"></div>
-        </div>
-    </div>
-</div>
+                    <div class="additional-info-content">
+                        <!-- Additional information will be dynamically inserted here -->
+                        <span class="close-btn" onclick="closeAdditionalInfoDialog()">&times;</span>
+                        <div class="info-container">
+                            <h3 id="additional-info-title">Additional Information</h3>
+                            <p id="additional-info-text">No additional information available.</p>
+                            <input type="file" id="image-upload" accept="image/*" style="display: block; margin-top: 10px;">
+                            <button onclick="uploadImage()">Confirm</button>
+                            <div id="image-preview"></div>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="complete-payment-btn">Complete Payment</button>
             </form>
+        </div>
+    </div>
+    <div id="insufficientBalanceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Insufficient Balance</h2>
+            <p>Your wallet balance is not enough to complete the payment. Please choose another payment method.</p>
         </div>
     </div>
     <footer class="footer">
@@ -271,35 +313,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             dialog.style.display = 'none';
         }
 
-    function showAdditionalInfo(paymentMethod) {
-        var dialog = document.getElementById('additional-info-dialog');
-        var title = document.getElementById('additional-info-title');
-        var text = document.getElementById('additional-info-text');
+        function showAdditionalInfo(paymentMethod) {
+            var dialog = document.getElementById('additional-info-dialog');
+            var title = document.getElementById('additional-info-title');
+            var text = document.getElementById('additional-info-text');
 
-        switch (paymentMethod) {
-            case 'cash':
-                title.innerText = 'Cash on Delivery';
-                text.innerText = 'Pay the amount in cash when your order is delivered.';
-                break;
-            case 'upi':
-                title.innerText = 'UPI Payment';
-                text.innerText = 'Transfer the amount to UPI ID: yourupiaddress@example.com.';
-                break;
-            case 'crypto':
-                title.innerText = 'Cryptocurrency Payment';
-                text.innerText = 'Transfer the amount to the provided cryptocurrency address.';
-                break;
-            case 'card':
-                title.innerText = 'Card Payment';
-                text.innerText = 'Enter your card details and complete the payment.';
-                break;
-            default:
-                title.innerText = 'Additional Information';
-                text.innerText = 'No additional information available.';
+            switch (paymentMethod) {
+                case 'cash':
+                    title.innerText = 'Cash on Delivery';
+                    text.innerText = 'Pay the amount in cash when your order is delivered.';
+                    break;
+                case 'upi':
+                    title.innerText = 'UPI Payment';
+                    text.innerText = 'Transfer the amount to UPI ID: yourupiaddress@example.com.';
+                    break;
+                case 'crypto':
+                    title.innerText = 'Cryptocurrency Payment';
+                    text.innerText = 'Transfer the amount to the provided cryptocurrency address.';
+                    break;
+                case 'card':
+                    title.innerText = 'Card Payment';
+                    text.innerText = 'Enter your card details and complete the payment.';
+                    break;
+                default:
+                    title.innerText = 'Additional Information';
+                    text.innerText = 'No additional information available.';
+            }
+
+            dialog.style.display = 'block';
         }
-
-        dialog.style.display = 'block';
-    }
 
         document.querySelectorAll('input[name="payment-method"]').forEach(function(radio) {
             radio.addEventListener('change', function() {

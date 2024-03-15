@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 $currentUsername = $_SESSION['username'];
 $currentUserEmail = $_SESSION['email'];
 
-$username=$_SESSION['username'];
+$username = $_SESSION['username'];
 
 $conn->close();
 ?>
@@ -38,7 +38,7 @@ $conn->close();
 
 <body>
 
-<header class="gradient-bg">
+  <header class="gradient-bg">
     <nav>
       <div class="logo">
         <a href="/Templates/home_after_login.php">HomeHive</a>
@@ -62,26 +62,34 @@ $conn->close();
   <div class="profile-container">
     <div class="user-info">
       <img src="/SEMESTER 4 PROJECT/Assets/HomePageImages/HomeIcon.jpg" alt="User Avatar">
-      <h2><?php echo strtoupper($currentUsername) ; ?></h2>
+      <h2><?php echo strtoupper($currentUsername); ?></h2>
       <p>Email: <?php echo $currentUserEmail; ?></p>
     </div>
 
     <div class="options">
       <div class="profile-option" id="orders">
         <a href="/SEMESTER 4 PROJECT/Templates/profile_order.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/orders.png" alt=""></a>
-        <a href="/SEMESTER 4 PROJECT/Templates/profile_order.php"><p>Recent Orders</p></a>
+        <a href="/SEMESTER 4 PROJECT/Templates/profile_order.php">
+          <p>Recent Orders</p>
+        </a>
       </div>
       <div class="profile-option" id="orders">
         <a href="/SEMESTER 4 PROJECT/Templates/wallet.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/wallet.png" alt=""></a>
-        <a href="/SEMESTER 4 PROJECT/Templates/wallet.php"><p>Wallet</p></a>
+        <a href="/SEMESTER 4 PROJECT/Templates/wallet.php">
+          <p>Wallet</p>
+        </a>
       </div>
       <div class="profile-option" id="contact">
         <a href="/SEMESTER 4 PROJECT/Templates/profile_contact.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/user.png" alt=""></a>
-        <a href="/SEMESTER 4 PROJECT/Templates/profile_contact.php"><p>User Info</p></a>
+        <a href="/SEMESTER 4 PROJECT/Templates/profile_contact.php">
+          <p>User Info</p>
+        </a>
       </div>
       <div class="profile-option" id="contact">
         <a href="/SEMESTER 4 PROJECT/Templates/Aboutus.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/aboutus.png" alt=""></a>
-        <a href="/SEMESTER 4 PROJECT/Templates/Aboutus.php"><p>About Us</p></a>
+        <a href="/SEMESTER 4 PROJECT/Templates/Aboutus.php">
+          <p>About Us</p>
+        </a>
       </div>
 
 
@@ -90,26 +98,12 @@ $conn->close();
   <br><br><br>
   <div class="Terms">
     <h2>Terms and Conditions</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-      Ullam quibusdam cumque animi molestias obcaecati odit quo quam, nemo amet dolores, dolore adipisci a illo
-      architecto fugit, saepe odio. Alias, architecto iste. Deleniti obcaecati maxime aperiam deserunt eligendi eveniet
-      aliquam laboriosam eum excepturi repellat, commodi delectus illum temporibus assumenda quisquam nobis! Explicabo
-      quibusdam et, beatae aut facere laboriosam officia cumque quaerat voluptatibus, incidunt eligendi! Temporibus a
-      mollitia quis suscipit reprehenderit vel id dolores architecto, repellat quibusdam quas dicta cum sed voluptatum
-      minus voluptate quia dolore, provident eligendi quidem consequatur perspiciatis iusto magnam facilis? Ipsam,
-      fugit! Quibusdam, sapiente! Tenetur magnam iure distinctio?</p>
+    <p>
+      By using our website, you agree to abide by the following terms and conditions. All content, including product descriptions, images, and prices, is provided for informational purposes only and may be subject to change without notice. We strive to ensure the accuracy of information but do not warrant that product descriptions or other content is error-free. Prices are subject to change and may vary based on promotions or discounts. We reserve the right to cancel orders, modify or discontinue products, and update these terms and conditions at any time. Your use of our website constitutes acceptance of these terms and conditions.</p>
 
     <br><br>
     <h2>About HomeHive</h2>
-    <p>HomeHive is your one-stop destination for high-quality household items Lorem ipsum dolor sit amet consectetur
-      adipisicing elit. Delectus mollitia facere fugit laudantium iusto consequuntur, eum explicabo possimus! Saepe
-      repudiandae voluptate eum! Dolores explicabo a, aspernatur excepturi eaque ratione magni, consequatur qui odit
-      obcaecati inventore amet alias provident reprehenderit eos? Harum aperiam molestiae ipsa dolorem itaque?
-      Voluptatem culpa autem deleniti, dicta facilis fuga numquam laboriosam iste nihil dolor, esse quidem ex neque
-      earum possimus, provident obcaecati quam excepturi iusto ullam quia itaque eligendi? Non provident beatae voluptas
-      asperiores at possimus temporibus rerum autem reprehenderit consequatur? Veniam cupiditate quidem temporibus eius
-      magni libero vero fuga saepe ipsam, veritatis velit iste id!</p>
-    <!-- Add more content as needed -->
+    <p>HomeHive is your go-to hub for modern living essentials, specializing in smart home appliances, sustainable furniture, and stylish decor. Our curated selection combines functionality, innovation, and eco-consciousness. Smart appliances simplify tasks and enhance comfort, while sustainable furniture promotes durability and environmental responsibility. Our decor range adds personality and sophistication to your spaces. We're dedicated to quality, innovation, and top-notch customer service, aiming to create harmonious spaces that reflect style, functionality, and conscious living. Join us at HomeHive for a seamless blend of modern convenience, sustainable practices, and timeless aesthetics.</p>
   </div>
   <br><br>
   <footer class="footer">
