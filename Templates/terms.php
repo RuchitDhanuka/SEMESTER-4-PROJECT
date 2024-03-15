@@ -40,7 +40,7 @@ $user=$_SESSION['username'];
     <h2>1. Agreement to Terms</h2>
     <p>By accessing or using our website, you agree to be bound by these terms and conditions. If you disagree with any part of these terms and conditions, you may not access the website.</p>
 
-    <h2>2. Intellectual Property Rights</h2>
+    <h2>2. Intellectual Property Right</h2>
     <p>All content included on this website, such as text, graphics, logos, button icons, images, audio clips, digital downloads, data compilations, and software, is the property of our company or its content suppliers and protected by international copyright laws.</p>
 
     <h2>3. Limitation of Liability</h2>
