@@ -135,7 +135,7 @@ function send_email($name, $email, $password)
         $mail->Subject = 'Account Password';
         $mail->Body = <<<EOT
         Hello $name !.<br>
-        Password for your HomeHive account is: $password.<br>
+        Password for your HomeHive account is: $password<br>
         You can change your password through the profile section once you log in to your account.
         EOT;
         $mail->send();
