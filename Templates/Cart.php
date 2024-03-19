@@ -24,6 +24,7 @@ $activeCartResult = $conn->query($activeCartQuery);
 
 if ($activeCartResult->num_rows > 0) {
     $activeCartRow = $activeCartResult->fetch_assoc();
+    $cartcode = $activeCartRow['cart_code'];
     $cartId = $activeCartRow['cart_id'];
     $_SESSION['cart_id'] = $cartId;
 } else {
@@ -113,6 +114,16 @@ if (isset($_SESSION['cart_id'])) {
     </header>
     <div class="container">
         <h1>Your Shopping Cart</h1>
+        <br>
+        <div class="otpcontainer" style="font-size: 20px;">
+            <p class='otp display'><?php echo 'Cart OTP:', $cartcode; ?></p>
+            <br>
+        </div>
+        <div class="otpsubmit">
+            <input style="padding: 10px; border-radius:8px; border-color:#1e6f5c;" type="text" placeholder="Enter Otp">
+            <button style="color:white; padding:10px;border-radius:8px; background-color:#1e6f5c;">Submit</button>
+
+        </div>
         <?php
 
         $sql = "SELECT * FROM cartitems WHERE cart_id = '$cartId'";

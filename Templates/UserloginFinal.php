@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
+    $otp = generate_otp();
     if (isset($_POST['sign-in-name']) && isset($_POST['sign-in-password'])) {
         $username = $_POST['sign-in-name'];
         $password = $_POST['sign-in-password'];
@@ -33,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['user_username'];
             $_SESSION['email'] = $row['user_email'];
             $_SESSION['password'] = $row['user_password'];
-
+            $otp = generate_otp();
             $checkCartSql = "SELECT * FROM cart WHERE user_id='" . $row['user_id'] . "' AND status='active'";
             $cartResult = $conn->query($checkCartSql);
             if ($cartResult->num_rows == 0) {
-                $createCartSql = "INSERT INTO cart (user_id, created_at, status) VALUES ('" . $_SESSION['userid'] . "', NOW(), 'active')";
+                $createCartSql = "INSERT INTO cart (user_id, created_at, status,cart_code) VALUES ('" . $_SESSION['userid'] . "', NOW(), 'active','$otp')";
                 if ($conn->query($createCartSql) === TRUE) {
                     $cartId = $conn->insert_id;
                     $_SESSION['cart_id'] = $cartId;
@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $errorMsg = "Error creating cart: " . $conn->error;
                 }
             } else {
-                // If user already has an active cart, retrieve the cart ID
                 $cartRow = $cartResult->fetch_assoc();
                 $_SESSION['cart_id'] = $cartRow['cart_id'];
             }
@@ -73,22 +72,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $password = password_generator();
 
             $mail_result = send_email($name, $email, $password);
+            $errorMsg = "Check your mail for your account password";
 
             if ($mail_result === true) {
                 $current_datetime = date('Y-m-d H:i:s');
                 $sql = "INSERT INTO userlogin (user_name, user_username, user_email, user_password, created_at, last_login) VALUES ('$name', '$username', '$email', '$password', NOW(),NOW())";
 
                 if ($conn->query($sql) === TRUE) {
-                    $userId = $conn->insert_id; // Store user ID in session
+                    $userId = $conn->insert_id;
                     $_SESSION['userid'] = $userId;
                     $_SESSION['username'] = $username;
                     $_SESSION['email'] = $email;
                     $_SESSION['password'] = $password;
 
-                    // Create a new wallet for the user
                     $createWalletSql = "INSERT INTO userwallet (user_id, balance) VALUES ('$userId', '0')";
                     if ($conn->query($createWalletSql) === TRUE) {
-                        // Redirect user to home page or wherever necessary
                         header("Location: /SEMESTER 4 PROJECT/Templates/UserLoginFinal.php");
                         exit();
                     } else {
@@ -116,7 +114,18 @@ function password_generator($length = 7)
 
     return $password;
 }
+function generate_otp($length = 4)
+{
+    $characters = '0123456789';
+    $otp = '';
+    $maxIndex = strlen($characters) - 1;
 
+    for ($i = 0; $i < $length; $i++) {
+        $otp .= $characters[rand(0, $maxIndex)];
+    }
+
+    return $otp;
+}
 function send_email($name, $email, $password)
 {
     $mail = new PHPMailer\PHPMailer\PHPMailer(true);
