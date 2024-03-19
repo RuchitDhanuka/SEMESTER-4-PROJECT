@@ -33,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['user_username'];
             $_SESSION['email'] = $row['user_email'];
             $_SESSION['password'] = $row['user_password'];
-
+            $cart_code=otp_generator();
             $checkCartSql = "SELECT * FROM cart WHERE user_id='" . $row['user_id'] . "' AND status='active'";
             $cartResult = $conn->query($checkCartSql);
             if ($cartResult->num_rows == 0) {
-                $createCartSql = "INSERT INTO cart (user_id, created_at, status) VALUES ('" . $_SESSION['userid'] . "', NOW(), 'active')";
+                $createCartSql = "INSERT INTO cart (user_id, created_at, status,cart_code) VALUES ('" . $_SESSION['userid'] . "', NOW(), 'active','$cart_code')";
                 if ($conn->query($createCartSql) === TRUE) {
                     $cartId = $conn->insert_id;
                     $_SESSION['cart_id'] = $cartId;
@@ -85,10 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['email'] = $email;
                     $_SESSION['password'] = $password;
 
-                    // Create a new wallet for the user
                     $createWalletSql = "INSERT INTO userwallet (user_id, balance) VALUES ('$userId', '0')";
                     if ($conn->query($createWalletSql) === TRUE) {
-                        // Redirect user to home page or wherever necessary
                         header("Location: /SEMESTER 4 PROJECT/Templates/UserLoginFinal.php");
                         exit();
                     } else {
@@ -115,6 +113,18 @@ function password_generator($length = 7)
     }
 
     return $password;
+}
+function otp_generator($length = 4)
+{
+    $characters = '0123456789';
+    $otp = '';
+    $maxIndex = strlen($characters) - 1;
+
+    for ($i = 0; $i < $length; $i++) {
+        $otp .= $characters[rand(0, $maxIndex)];
+    }
+
+    return $otp;
 }
 
 function send_email($name, $email, $password)
@@ -155,7 +165,6 @@ function send_email($name, $email, $password)
     <title>LogIn</title>
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/UserloginFinal_css.css">
 </head>
-
 <body>
     <video autoplay loop muted>
         <source src="/SEMESTER 4 PROJECT/Documentation/UI DESIGN/UserModule/LoginFinal.mp4" type="video/mp4">

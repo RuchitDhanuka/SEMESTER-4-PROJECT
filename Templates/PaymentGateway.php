@@ -119,14 +119,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error inserting into payment table: " . $conn->error;
         exit();
     }
-
     // $updateCartPaymentIdQuery = "UPDATE cart SET payment_id = '$paymentId' WHERE cart_id = '$cartId'";
     // if ($conn->query($updateCartPaymentIdQuery) !== TRUE) {
     //     echo "Error updating payment ID in cart table: " . $conn->error;
     //     exit();
     // }
-
-    $insertNewCartQuery = "INSERT INTO cart (user_id,created_at, status) VALUES ('$userId', NOW(),'active')";
+    $cart_code=otp_generator();
+    $insertNewCartQuery = "INSERT INTO cart (user_id,created_at, status,cart_code) VALUES ('$userId', NOW(),'active','$cart_code')";
     if ($conn->query($insertNewCartQuery) !== TRUE) {
         echo "Error creating new cart: " . $conn->error;
         exit();
@@ -141,7 +140,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($userEmailResult->num_rows > 0) {
         $userEmailRow = $userEmailResult->fetch_assoc();
         $userEmail = $userEmailRow['user_email'];
-
         $bill = "Bill for your recent order:<br>";
         $cartItemsQuery = "SELECT product_name, product_price, quantity FROM cartitems JOIN product ON cartitems.item_id = product.product_id WHERE cart_id = '$cartId'";
         $cartItemsResult = $conn->query($cartItemsQuery);
@@ -164,7 +162,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: /SEMESTER 4 PROJECT/Templates/orderplaced.php");
     exit();
 }
+function otp_generator($length = 4)
+{
+    $characters = '0123456789';
+    $otp = '';
+    $maxIndex = strlen($characters) - 1;
 
+    for ($i = 0; $i < $length; $i++) {
+        $otp .= $characters[rand(0, $maxIndex)];
+    }
+
+    return $otp;
+}
 ?>
 
 <!DOCTYPE html>
@@ -178,6 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
     <header class="gradient-bg">
         <nav>
