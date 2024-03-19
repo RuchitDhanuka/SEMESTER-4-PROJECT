@@ -13,6 +13,7 @@ $username = $_SESSION['username'];
   <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/navbar3css.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
   <header class="gradient-bg">
     <nav>
