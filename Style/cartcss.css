@@ -19,6 +19,20 @@ body {
 h1 {
   color: #1e6f5c;
 }
+.otpcontainer{
+  font-size: 20px;
+}
+.otpsubmit input[type='text']{
+  padding: 10px;
+  border-radius: 8px;
+  border-color: #1e6f5c;
+}
+.otpsubmit button{
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #1e6f5c;
+}
 
 .product-card {
   display: flex;
