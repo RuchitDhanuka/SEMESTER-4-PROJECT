@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: /SEMESTER 4 PROJECT/Templates/home_before_login.php");
     exit();
 }
