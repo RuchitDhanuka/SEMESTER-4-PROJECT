@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Check if the user has an active cart
     $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
     $activeCartQuery = "SELECT * FROM cart WHERE user_id = '$userId' AND status = 'active'";
     $activeCartResult = $conn->query($activeCartQuery);

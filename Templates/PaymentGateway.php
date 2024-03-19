@@ -42,7 +42,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['userid'])) {
     header("Location: /SEMESTER 4 PROJECT/Templates/home_before_login.php");
     exit();
 }
@@ -90,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $paymentId = mt_rand(100000, 999999);
 
     if ($paymentMode === 'wallet') {
-        // Check user's wallet balance
         $checkBalanceQuery = "SELECT balance FROM userwallet WHERE user_id = '$userId'";
         $balanceResult = $conn->query($checkBalanceQuery);
 
@@ -98,9 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $balanceRow = $balanceResult->fetch_assoc();
             $walletBalance = $balanceRow['balance'];
 
-            // Check if wallet balance is sufficient for payment
             if ($walletBalance >= $cartTotal) {
-                // Deduct cart amount from wallet balance
                 $newBalance = $walletBalance - $cartTotal;
                 $updateBalanceQuery = "UPDATE userwallet SET balance = '$newBalance' WHERE user_id = '$userId'";
                 if ($conn->query($updateBalanceQuery) !== TRUE) {
