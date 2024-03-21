@@ -65,6 +65,7 @@ video {
     justify-content: center;
     padding: 0px 50px;
     padding-bottom: 240px;
+    padding-top: 58px;
 }
 #sign-up-form{
     height: 100%;

@@ -24,13 +24,13 @@ h1 {
 }
 .otpsubmit input[type='text']{
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border-color: #1e6f5c;
 }
 .otpsubmit button{
   color: white;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #1e6f5c;
 }
 

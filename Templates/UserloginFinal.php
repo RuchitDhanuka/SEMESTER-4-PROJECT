@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $errorMsg = "Error creating cart: " . $conn->error;
                 }
             } else {
-                // If user already has an active cart, retrieve the cart ID
                 $cartRow = $cartResult->fetch_assoc();
                 $_SESSION['cart_id'] = $cartRow['cart_id'];
             }
@@ -75,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail_result = send_email($name, $email, $password);
 
             if ($mail_result === true) {
+                $errorMsg="Check your mail for your password";
                 $current_datetime = date('Y-m-d H:i:s');
                 $sql = "INSERT INTO userlogin (user_name, user_username, user_email, user_password, created_at, last_login) VALUES ('$name', '$username', '$email', '$password', NOW(),NOW())";
 
