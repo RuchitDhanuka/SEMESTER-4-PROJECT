@@ -54,9 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="#">HomeHive</a>
             </div>
             <ul class="nav-links">
-                <li><a href="/SEMESTER 4 PROJECT/admin/admin template/admin_addproduct.php">Add Product</a></li>
-                <li><a href="/SEMESTER 4 PROJECT/admin/admin template/admin_deleteproduct.php">Delete Product</a></li>
-                <li><a href="/SEMESTER 4 PROJECT/admin/admin template/admin_product.php">Product Listing</a></li>
+            <li><a href="/SEMESTER 4 PROJECT/admin/admin template/Dashboard.php">DASHBOARD</a></li>
+
             </ul>
             <div class="auth-links">
                 <a href="/SEMESTER 4 PROJECT/admin/admin template/AdminLoginFinal.php" class="login-btn">LogOut</a>

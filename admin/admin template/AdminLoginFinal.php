@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $current_datetime = date('Y-m-d H:i:s');
             $update_sql = "UPDATE adminlogin SET last_login='$current_datetime' WHERE admin_username='$username'";
             if ($conn->query($update_sql) === TRUE) {
-                header("Location: /SEMESTER 4 PROJECT/admin/admin template/admin_addproduct.php");
+                header("Location: /SEMESTER 4 PROJECT/admin/admin template/Dashboard.php");
                 exit();
             } else {
                 $errorMsg = "Error updating last login: " . $conn->error;
@@ -58,13 +58,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $mail_result = send_email($name, $email, $password);
 
                 if ($mail_result === true) {
-                    // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
                     $current_datetime = date('Y-m-d H:i:s');
                     $sql = "INSERT INTO adminlogin (admin_name, admin_username, admin_email, admin_password, created_at, last_login) VALUES ('$name', '$username', '$email', '$password', '$current_datetime', '$current_datetime')";
 
                     if ($conn->query($sql) === TRUE) {
-                        header("Location: /SEMESTER 4 PROJECT/admin/admin template/AdminLoginFinal.php");
+                        header("Location: /SEMESTER 4 PROJECT/admin/admin template/Dashboard.php");
                         exit();
                     } else {
                         $errorMsg = "Error: " . $sql . "<br>" . $conn->error;

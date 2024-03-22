@@ -119,11 +119,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error inserting into payment table: " . $conn->error;
         exit();
     }
-    // $updateCartPaymentIdQuery = "UPDATE cart SET payment_id = '$paymentId' WHERE cart_id = '$cartId'";
-    // if ($conn->query($updateCartPaymentIdQuery) !== TRUE) {
-    //     echo "Error updating payment ID in cart table: " . $conn->error;
-    //     exit();
-    // }
     $cart_code=otp_generator();
     $insertNewCartQuery = "INSERT INTO cart (user_id,created_at, status,cart_code) VALUES ('$userId', NOW(),'active','$cart_code')";
     if ($conn->query($insertNewCartQuery) !== TRUE) {
@@ -158,7 +153,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Thank you for your order.<br>Here is your bill:<br>$bill";
         send_email($userEmail, $subject, $message);
     }
-
+    $cartItemsQuery = "SELECT item_id, quantity FROM cartitems WHERE cart_id = '$cartId'";
+    $cartItemsResult = $conn->query($cartItemsQuery);
+    
+    if ($cartItemsResult->num_rows > 0) {
+        while ($cartItem = $cartItemsResult->fetch_assoc()) {
+            $itemId = $cartItem['item_id'];
+            $quantity = $cartItem['quantity'];
+    
+            // Retrieve the current quantity of the product from productinventory
+            $productQuantityQuery = "SELECT product_quantity FROM productinventory WHERE product_id = '$itemId'";
+            $productQuantityResult = $conn->query($productQuantityQuery);
+    
+            if ($productQuantityResult->num_rows > 0) {
+                $productQuantityRow = $productQuantityResult->fetch_assoc();
+                $currentQuantity = $productQuantityRow['product_quantity'];
+    
+                // Calculate the new quantity after deducting cart item quantity
+                $newQuantity = $currentQuantity - $quantity;
+    
+                // Update the product quantity in productinventory
+                $updateQuantityQuery = "UPDATE productinventory SET product_quantity = '$newQuantity' WHERE product_id = '$itemId'";
+                if ($conn->query($updateQuantityQuery) !== TRUE) {
+                    echo "Error updating product quantity: " . $conn->error;
+                    exit();
+                }
+            } else {
+                echo "Product quantity not found.";
+                exit();
+            }
+        }
+    } else {
+        echo "No items found in the cart.";
+        exit();
+    }
     header("Location: /SEMESTER 4 PROJECT/Templates/orderplaced.php");
     exit();
 }
@@ -220,7 +248,6 @@ function otp_generator($length = 4)
                 <p>Total: $<?php echo $cartTotal; ?></p>
             </div>
             <form action="" method="post">
-                <!-- Payment form -->
                 <div class="payment-options">
                     <h2>Select Payment Method</h2>
                     <div class="option">
@@ -259,10 +286,8 @@ function otp_generator($length = 4)
                         </label>
                     </div>
                 </div>
-                <!-- Additional info dialog -->
                 <div id="additional-info-dialog" class="additional-info-dialog">
                     <div class="additional-info-content">
-                        <!-- Additional information will be dynamically inserted here -->
                         <span class="close-btn" onclick="closeAdditionalInfoDialog()">&times;</span>
                         <div class="info-container">
                             <h3 id="additional-info-title">Additional Information</h3>

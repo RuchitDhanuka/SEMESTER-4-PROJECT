@@ -31,7 +31,9 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/admin/admin style/admin_product_css.css">
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/navbar1css.css">
 </head>
+    <style>
 
+    </style>
 <body>
     <header class="gradient-bg">
         <nav>
@@ -39,9 +41,8 @@ $result = $conn->query($sql);
                 <a href="#">HomeHive</a>
             </div>
             <ul class="nav-links">
-                <li><a href="/SEMESTER 4 PROJECT/admin/admin template/admin_addproduct.php">Add Product</a></li>
-                <li><a href="/SEMESTER 4 PROJECT/admin/admin template/admin_deleteproduct.php">Delete Product</a></li>
-                <li><a href="/SEMESTER 4 PROJECT/admin/admin template/admin_product.php">Product Listing</a></li>
+            <li><a href="/SEMESTER 4 PROJECT/admin/admin template/Dashboard.php">DASHBOARD</a></li>
+
             </ul>
             <div class="auth-links">
                 <a href="/SEMESTER 4 PROJECT/admin/admin template/AdminLoginFinal.php" class="login-btn">LogOut</a>
@@ -51,6 +52,10 @@ $result = $conn->query($sql);
 
     <div class="container">
         <h1>Product Details</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search for products...">
+            <button onclick="searchProducts()" class="search-button">Search</button>
+        </div>
 
         <div class="dropdown-container">
             <select id="category-select">
@@ -94,5 +99,4 @@ $result = $conn->query($sql);
 
 </body>
 <script src="/SEMESTER 4 PROJECT/admin/admin javascript/admin_productlisting.js"></script>
-
 </html>

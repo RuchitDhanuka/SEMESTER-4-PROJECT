@@ -48,8 +48,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $newBalance = $currentBalance + $productPrice;
                                 $updateWalletQuery = "UPDATE userwallet SET balance = '$newBalance' WHERE user_id = '$userId'";
                                 if ($conn->query($updateWalletQuery) === TRUE) {
-                                    header('Location: /SEMESTER 4 PROJECT/Templates/refundprocessed.php');
-                                    exit();
+                                    $returnedItemQuery = "SELECT quantity FROM cartitems WHERE cart_id = '$cartId' AND item_id = '$productId'";
+                                    $returnedItemResult = $conn->query($returnedItemQuery);
+
+                                    if ($returnedItemResult->num_rows > 0) {
+                                        $returnedItemData = $returnedItemResult->fetch_assoc();
+                                        $returnedQuantity = $returnedItemData['quantity'];
+
+                                        $updateProductQuantityQuery = "UPDATE productinventory SET product_quantity = product_quantity + '$returnedQuantity' WHERE product_id = '$productId'";
+                                        if ($conn->query($updateProductQuantityQuery) === TRUE) {
+                                            header('Location: /SEMESTER 4 PROJECT/Templates/refundprocessed.php');
+                                            exit();
+                                        } else {
+                                            echo "Error updating product quantity: " . $conn->error;
+                                        }
+                                    } else {
+                                        echo "Returned item not found in the cart.";
+                                    }
                                 } else {
                                     echo "Error updating wallet balance: " . $conn->error;
                                 }
@@ -57,8 +72,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 echo "User wallet not found.";
                             }
                         } else {
-                            header('Location: /SEMESTER 4 PROJECT/Templates/refundprocessed.php');
-                            exit();
+                            $returnedItemQuery = "SELECT quantity FROM cartitems WHERE cart_id = '$cartId' AND item_id = '$productId'";
+                            $returnedItemResult = $conn->query($returnedItemQuery);
+
+                            if ($returnedItemResult->num_rows > 0) {
+                                $returnedItemData = $returnedItemResult->fetch_assoc();
+                                $returnedQuantity = $returnedItemData['quantity'];
+
+                                $updateProductQuantityQuery = "UPDATE productinventory SET product_quantity = product_quantity + '$returnedQuantity' WHERE product_id = '$productId'";
+                                if ($conn->query($updateProductQuantityQuery) === TRUE) {
+                                    header('Location: /SEMESTER 4 PROJECT/Templates/refundprocessed.php');
+                                    exit();
+                                } else {
+                                    echo "Error updating product quantity: " . $conn->error;
+                                }
+                            } else {
+                                echo "Returned item not found in the cart.";
+                            }
                         }
                     } else {
                         echo "Error updating product status: " . $conn->error;

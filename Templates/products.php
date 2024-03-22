@@ -89,19 +89,27 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT * FROM product WHERE category_id=1";
+        $sql = "SELECT p.*, pi.product_quantity FROM product AS p INNER JOIN productinventory AS pi ON p.product_id = pi.product_id WHERE p.category_id = 1";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                $productName = $row['product_name'];
+                $productPrice = $row['product_price'];
+                $productImage = $row['product_image_url'];
+                $productQuantity = $row['product_quantity'];
+
+                $stockStatus = ($productQuantity == 0) ? 'Out of Stock' : (($productQuantity > 0 && $productQuantity <= 5) ? 'Few pieces left' : '');
+
         ?>
                 <div class="card">
                     <div class="image">
-                        <img src="<?php echo $row['product_image_url']; ?>" alt="Product Image">
+                        <img src="<?php echo $productImage; ?>" alt="Product Image">
                     </div>
                     <div class="content">
-                        <h2><?php echo $row['product_name']; ?></h2>
-                        <p class="price">$<?php echo $row['product_price']; ?></p>
+                        <h2><?php echo $productName; ?></h2>
+                        <p class="price">$<?php echo $productPrice; ?></p>
+                        <p><?php echo $stockStatus; ?></p>
                         <a href="product_details.php?id=<?php echo $row['product_id']; ?>" class="button">View Details</a>
                     </div>
                 </div>

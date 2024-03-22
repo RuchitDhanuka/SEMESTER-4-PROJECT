@@ -7,11 +7,11 @@ $username=$_SESSION['username'];
 
 <head>
   <meta charset="UTF-8">
-  <title>Home Appliance</title>
+  <title>Furniture</title>
   <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/navbar3css.css">
   <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/footer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/homeappliances_product_css.css">
+  <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/kitchenappliances_product_css.css">
   <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/sortingcss.css">
 
 
@@ -31,7 +31,7 @@ $username=$_SESSION['username'];
       <div class="dropdown-container">
         <button class="dropdown-btn"><?php echo ucfirst($username); ?></button>
         <div class="dropdown-content">
-          <a href="/SEMESTER 4 PROJECT/Templates/Profile.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/profile.png" alt="Profile Icon"> Hello, <?php echo ucfirst($username); ?></a>
+          <a href="/SEMESTER 4 PROJECT/Templates/Profile.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/profile.png" alt="Profile Icon"> Hello,<?php echo ucfirst($username); ?></a>
           <a href="/SEMESTER 4 PROJECT/Templates/Cart.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/cart.png" alt="Cart Icon"> Cart</a>
           <a href="/SEMESTER 4 PROJECT/Templates/home_before_login.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/logout.png" alt="Logout Icon"> Logout</a>
         </div>
@@ -41,13 +41,14 @@ $username=$_SESSION['username'];
 
   <section class="image-slider">
     <div class="image-container">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/home2.jpg" alt="Furniture Image 1">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/ha1.jpg" alt="Furniture Image 1">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/ha3.jpg" alt="Furniture Image 1">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/ha4.jpg" alt="Furniture Image 1">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/ha6.jpg" alt="Furniture Image 1">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/ha9.jpg" alt="Furniture Image 1">
-      <img src="/SEMESTER 4 PROJECT/Assets/Home appliances images/ha11.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/kitchen2.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka1.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka2.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka9.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka10.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka11.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka12.jpg" alt="Furniture Image 1">
+      <img src="/SEMESTER 4 PROJECT/Assets/Kitchen images/ka5.jpg" alt="Furniture Image 1">
     </div>
   </section>
   <br>
@@ -85,19 +86,27 @@ $username=$_SESSION['username'];
       $sortSql = 'ORDER BY product_price DESC';
     }
 
-    $sql = "SELECT * FROM product WHERE category_id=2 $sortSql";
+    $sql = "SELECT p.*, pi.product_quantity FROM product AS p INNER JOIN productinventory AS pi ON p.product_id = pi.product_id WHERE p.category_id=3 $sortSql";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
       while ($row = $result->fetch_assoc()) {
+        $productName = $row['product_name'];
+        $productPrice = $row['product_price'];
+        $productImage = $row['product_image_url'];
+        $productQuantity = $row['product_quantity'];
+
+        $stockStatus = ($productQuantity == 0) ? 'Out of Stock' : (($productQuantity > 0 && $productQuantity <= 5) ? 'Few pieces left' : '');
+
     ?>
         <div class="card">
           <div class="image">
-            <img src="<?php echo $row['product_image_url']; ?>" alt="Product Image">
+            <img src="<?php echo $productImage; ?>" alt="Product Image">
           </div>
           <div class="content">
-            <h2><?php echo $row['product_name']; ?></h2>
-            <p class="price">$<?php echo $row['product_price']; ?></p>
+            <h2><?php echo $productName; ?></h2>
+            <p class="price">$<?php echo $productPrice; ?></p>
+            <p><?php echo $stockStatus; ?></p>
             <br>
             <a href="product_details.php?id=<?php echo $row['product_id']; ?>" class="button">View Details</a>
           </div>
@@ -109,6 +118,7 @@ $username=$_SESSION['username'];
     }
     ?>
   </div>
+
   <footer class="footer">
     <div class="footer-section">
       <h3>Contact Us</h3>
@@ -139,11 +149,9 @@ $username=$_SESSION['username'];
     </div>
   </footer>
 
-
 </body>
 <script src="/SEMESTER 4 PROJECT/javascript/imagechange.js"></script>
 <script src="/SEMESTER 4 PROJECT/javascript/sorting.js"></script>
 <script src="/SEMESTER 4 PROJECT/javascript/searchproduct.js"></script>
-</body>
 
 </html>
