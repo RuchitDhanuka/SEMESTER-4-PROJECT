@@ -120,10 +120,29 @@ if (isset($_SESSION['cart_id'])) {
             <p class='otp display'><?php echo 'Cart OTP:', $cartcode; ?></p>
             <br>
         </div>
-        <div class="otpsubmit">
-            <input  type="text" placeholder="Enter Otp">
-            <button >Submit</button>
-        </div>
+        <form method="POST" action="" class="otpsubmit">
+            <input type="text" name="cartOTP" placeholder="Enter OTP">
+            <button type="submit" name="submitOTP">Submit</button>
+        </form>
+
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitOTP'])) {
+            $submittedOTP = $_POST['cartOTP'];
+
+            $checkOTPQuery = "SELECT * FROM cart WHERE cart_code = '$submittedOTP' and status='active'";
+            $checkOTPResult = $conn->query($checkOTPQuery);
+
+            if ($checkOTPResult->num_rows > 0) {
+                echo "Cart is accessed!";
+                $updateWrongOTPQuery = "UPDATE cart SET shared_cart = '$submittedOTP' WHERE cart_id = '$cartId'";
+                if ($conn->query($updateWrongOTPQuery) !== TRUE) {
+                    echo "Error updating cart with wrong OTP: " . $conn->error;
+                }
+            } else {
+                echo "Wrong OTP entered. Please try again.";
+            }
+        }
+        ?>
         <?php
 
         $sql = "SELECT * FROM cartitems WHERE cart_id = '$cartId'";

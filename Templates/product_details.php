@@ -1,6 +1,6 @@
 <?php
 session_start();
-$username = $_SESSION['username'];
+$user = $_SESSION['username'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $productId = $_POST['productId'];
 
@@ -113,9 +113,9 @@ if (isset($_GET['id'])) {
                 <li><a href="/SEMESTER 4 PROJECT/Templates/Aboutus.php">About Us</a></li>
             </ul>
             <div class="dropdown-container">
-                <button class="dropdown-btn"><?php echo ucfirst($username); ?></button>
+                <button class="dropdown-btn"><?php echo ucfirst($user); ?></button>
                 <div class="dropdown-content">
-                    <a href="/SEMESTER 4 PROJECT/Templates/Profile.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/profile.png" alt="Profile Icon"> Hello, <?php echo ucfirst($username); ?></a>
+                    <a href="/SEMESTER 4 PROJECT/Templates/Profile.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/profile.png" alt="Profile Icon"> Hello, <?php echo ucfirst($user); ?></a>
                     <a href="/SEMESTER 4 PROJECT/Templates/Cart.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/cart.png" alt="Cart Icon"> Cart</a>
                     <a href="/SEMESTER 4 PROJECT/Templates/home_before_login.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/logout.png" alt="Logout Icon"> Logout</a>
                 </div>
