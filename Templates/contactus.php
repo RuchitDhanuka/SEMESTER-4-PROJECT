@@ -114,7 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <header class="gradient-bg">
     <nav>
       <div class="logo">
-        <a href="/Templates/home_after_login.php">HomeHive</a>
+      <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
+
       </div>
       <ul class="nav-links">
         <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>
@@ -196,22 +197,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
       </div>
       <div class="business-related">
-  <h2>For Business Related Queries</h2>
-  <p>If you have any business-related inquiries or partnership opportunities, please feel free to reach out to us:</p>
-  <br>
-  <div class="contact-info">
-    <div>
-      <p>Email:</p>
-      <a href="mailto:homehive63@gmail.com">homehive63@gmail.com</a>
-    </div>
-    <div>
-      <p>Phone:</p>
-      <p>+91 6000 924957</p>
-    </div>
-  </div>
-  <br><br>
-  <p>Our office hours are Monday to Friday, 9:00 AM to 6:00 PM (IST).</p>
-</div>
+        <h2>For Business Related Queries</h2>
+        <p>If you have any business-related inquiries or partnership opportunities, please feel free to reach out to us:</p>
+        <br>
+        <div class="contact-info">
+          <div>
+            <p>Email:</p>
+            <a href="mailto:homehive63@gmail.com">homehive63@gmail.com</a>
+          </div>
+          <div>
+            <p>Phone:</p>
+            <p>+91 6000 924957</p>
+          </div>
+        </div>
+        <br><br>
+        <p>Our office hours are Monday to Friday, 9:00 AM to 6:00 PM (IST).</p>
+      </div>
     </div>
   </div>
   <footer class="footer">

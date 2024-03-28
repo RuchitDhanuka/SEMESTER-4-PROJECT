@@ -1,6 +1,6 @@
 <?php
 session_start();
-$username=$_SESSION['username'];
+$username = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +19,12 @@ $username=$_SESSION['username'];
 </head>
 
 <body>
-<header class="gradient-bg">
+  <header class="gradient-bg">
     <nav>
       <div class="logo">
-        <a href="/Templates/home_after_login.php">HomeHive</a>
+        <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
+
+
       </div>
       <ul class="nav-links">
         <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>

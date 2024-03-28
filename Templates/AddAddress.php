@@ -10,7 +10,7 @@ require '/xampp/htdocs/PHPMailer/Exception.php';
 require '/xampp/htdocs/PHPMailer/PHPMailer.php';
 require '/xampp/htdocs/PHPMailer/SMTP.php';
 
-$user=$_SESSION['username'];
+$user = $_SESSION['username'];
 $errorMsg = "";
 $successMsg = "";
 
@@ -66,26 +66,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<header class="gradient-bg">
-    <nav>
-      <div class="logo">
-        <a href="/Templates/home_after_login.php">HomeHive</a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>
-        <li><a href="/SEMESTER 4 PROJECT/Templates/Categories.php">Categories</a></li>
-        <li><a href="/SEMESTER 4 PROJECT/Templates/Aboutus.php">About Us</a></li>
-      </ul>
-      <div class="dropdown-container">
-        <button class="dropdown-btn"><?php echo ucfirst($user); ?></button>
-        <div class="dropdown-content">
-          <a href="/SEMESTER 4 PROJECT/Templates/Profile.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/profile.png" alt="Profile Icon"> Hello, <?php echo ucfirst($user); ?></a>
-          <a href="/SEMESTER 4 PROJECT/Templates/Cart.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/cart.png" alt="Cart Icon"> Cart</a>
-          <a href="/SEMESTER 4 PROJECT/Templates/home_before_login.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/logout.png" alt="Logout Icon"> Logout</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+    <header class="gradient-bg">
+        <nav>
+            <div class="logo">
+                <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>
+                <li><a href="/SEMESTER 4 PROJECT/Templates/Categories.php">Categories</a></li>
+                <li><a href="/SEMESTER 4 PROJECT/Templates/Aboutus.php">About Us</a></li>
+            </ul>
+            <div class="dropdown-container">
+                <button class="dropdown-btn"><?php echo ucfirst($user); ?></button>
+                <div class="dropdown-content">
+                    <a href="/SEMESTER 4 PROJECT/Templates/Profile.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/profile.png" alt="Profile Icon"> Hello, <?php echo ucfirst($user); ?></a>
+                    <a href="/SEMESTER 4 PROJECT/Templates/Cart.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/cart.png" alt="Cart Icon"> Cart</a>
+                    <a href="/SEMESTER 4 PROJECT/Templates/home_before_login.php"><img src="/SEMESTER 4 PROJECT/Assets/Icons/logout.png" alt="Logout Icon"> Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div class="address-form-container">
         <h2>Enter Your Address</h2>
         <?php if (!empty($successMsg)) { ?>
@@ -96,12 +96,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php } ?>
         <form id="addressForm" method="POST">
             <div class="form-group">
-                <input type="text" id="addressline1" name="addressline1" placeholder="Enter Flat No, Building Name"
-                    required>
+                <input type="text" id="addressline1" name="addressline1" placeholder="Enter Flat No, Building Name" required>
             </div>
             <div class="form-group">
-                <input type="text" id="addressline2" name="addressline2" placeholder="Enter Street Name,Locality Name"
-                    required>
+                <input type="text" id="addressline2" name="addressline2" placeholder="Enter Street Name,Locality Name" required>
             </div>
 
             <div class="form-group">

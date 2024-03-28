@@ -112,7 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clearSharedCart']) && 
     <header class="gradient-bg">
         <nav>
             <div class="logo">
-                <a href="/Templates/home_after_login.php">HomeHive</a>
+            <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
+
             </div>
             <ul class="nav-links">
                 <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>
@@ -136,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clearSharedCart']) && 
             <p class='otp display'><?php echo 'Cart OTP:', $cartcode; ?></p>
             <?php if ($sharedCartCode !== NULL) {
 
-                echo "Shared Cart:",$sharedCartCode;
+                echo "Shared Cart:", $sharedCartCode;
             }
             ?>
             <br>

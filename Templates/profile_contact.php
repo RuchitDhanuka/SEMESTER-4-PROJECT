@@ -1,6 +1,8 @@
 <?php
 session_start();
-
+require '/xampp/htdocs/PHPMailer/Exception.php';
+require '/xampp/htdocs/PHPMailer/PHPMailer.php';
+require '/xampp/htdocs/PHPMailer/SMTP.php';
 if (!isset($_SESSION['username'])) {
   header("Location: /SEMESTER 4 PROJECT/Templates/home_before_login.php");
   exit();
@@ -11,7 +13,32 @@ $username = "root";
 $password = "ruchit19";
 $database = "homehive";
 $conn = new mysqli($servername, $username, $password, $database);
-
+function send_email($name, $email)
+{
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        $mail->SMTPDebug = 0;
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'homehive63@gmail.com';
+        $mail->Password   = 'ruod pfkd sgcd oqpp';
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+        $mail->setFrom('homehive63@gmail.com', 'HomeHive');
+        $mail->addAddress($email);
+        $mail->isHTML(true);
+        $mail->Subject = 'Account Password';
+        $mail->Body = <<<EOT
+        Hello $name !.<br>
+        Password for your HomeHive account has been changed successfully: <br>
+        EOT;
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
+    }
+}
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
@@ -41,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-password'])) {
   $sql = "UPDATE userlogin SET user_password='$newPassword' WHERE user_id=$userid";
 
   if ($conn->query($sql) === TRUE) {
+    send_email($_SESSION['username'],$_SESSION['email']);
     $_SESSION['password'] = $newPassword;
   } else {
     echo "Error updating password: " . $conn->error;
@@ -165,7 +193,7 @@ $conn->close();
 <header class="gradient-bg">
     <nav>
       <div class="logo">
-        <a href="/Templates/home_after_login.php">HomeHive</a>
+      <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
       </div>
       <ul class="nav-links">
         <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>

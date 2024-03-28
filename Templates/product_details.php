@@ -72,7 +72,7 @@ if (isset($_GET['id'])) {
         }
 
         $disableButton = ($stockStatus === 'Out of Stock') ? 'disabled' : '';
-        $stockStatusStyle = ($stockStatus === 'Out of Stock') ? 'color: red; font-weight: bold;' : '';
+        $stockStatusStyle = ($stockStatus === 'Out of Stock') ? 'color: red; font-weight: bold;' : 'color: black;font-style: italic;';
     }
 }
 ?>
@@ -90,22 +90,23 @@ if (isset($_GET['id'])) {
 </head>
 <style>
     .add-to-cart.disabled {
-    background-color: grey;
-    color: #ccc;
-    cursor: default;
-    pointer-events: none;
-}
+        background-color: grey;
+        color: #ccc;
+        cursor: default;
+        pointer-events: none;
+    }
 
-.add-to-cart.disabled:hover {
-    background-color: grey;
-    color: #ccc;
-}
+    .add-to-cart.disabled:hover {
+        background-color: grey;
+        color: #ccc;
+    }
 </style>
+
 <body>
     <header class="gradient-bg">
         <nav>
             <div class="logo">
-                <a href="/Templates/home_after_login.php">HomeHive</a>
+                <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
             </div>
             <ul class="nav-links">
                 <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>

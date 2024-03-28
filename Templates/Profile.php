@@ -41,7 +41,7 @@ $conn->close();
   <header class="gradient-bg">
     <nav>
       <div class="logo">
-        <a href="/Templates/home_after_login.php">HomeHive</a>
+      <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
       </div>
       <ul class="nav-links">
         <li><a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">Home</a></li>
@@ -58,11 +58,10 @@ $conn->close();
       </div>
     </nav>
   </header>
-
   <div class="profile-container">
     <div class="user-info">
       <img src="/SEMESTER 4 PROJECT/Assets/HomePageImages/HomeIcon.jpg" alt="User Avatar">
-      <h2><?php echo strtoupper($currentUsername); ?></h2>
+      <h2><?php echo ucfirst($currentUsername); ?></h2>
       <p>Email: <?php echo $currentUserEmail; ?></p>
     </div>
 
