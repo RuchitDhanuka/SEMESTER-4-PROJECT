@@ -26,6 +26,7 @@ if ($activeCartResult->num_rows > 0) {
     $activeCartRow = $activeCartResult->fetch_assoc();
     $cartcode = $activeCartRow['cart_code'];
     $cartId = $activeCartRow['cart_id'];
+    $sharedCartCode = $activeCartRow['shared_cart'];
 
     $_SESSION['cart_id'] = $cartId;
 } else {
@@ -79,6 +80,16 @@ if (isset($_SESSION['cart_id'])) {
     }
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clearSharedCart']) && isset($_SESSION['cart_id'])) {
+    $cartId = $_SESSION['cart_id'];
+
+    $clearSharedCartQuery = "UPDATE cart SET shared_cart = NULL WHERE cart_id = '$cartId'";
+    if ($conn->query($clearSharedCartQuery) === TRUE) {
+        $_SESSION['clearSharedCartMessage'] = "Cart unshared";
+    } else {
+        echo "Error clearing shared cart data: " . $conn->error;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -90,6 +101,11 @@ if (isset($_SESSION['cart_id'])) {
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/navbar3css.css">
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/footer.css">
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/cartcss.css">
+    <script>
+        function refreshPage() {
+            window.location.reload(true); // Reload the page
+        }
+    </script>
 </head>
 
 <body>
@@ -118,21 +134,45 @@ if (isset($_SESSION['cart_id'])) {
         <br>
         <div class="otpcontainer">
             <p class='otp display'><?php echo 'Cart OTP:', $cartcode; ?></p>
+            <?php if ($sharedCartCode !== NULL) {
+
+                echo "Shared Cart:",$sharedCartCode;
+            }
+            ?>
             <br>
         </div>
         <form method="POST" action="" class="otpsubmit">
             <input type="text" name="cartOTP" placeholder="Enter OTP">
             <button type="submit" name="submitOTP">Submit</button>
+            <button type="submit" name="clearSharedCart">X</button>
         </form>
+        <div class="message-container">
+            <?php
+            if (isset($_SESSION['clearSharedCartMessage'])) {
+                echo $_SESSION['clearSharedCartMessage'];
+                unset($_SESSION['clearSharedCartMessage']);
+            }
+            ?>
+        </div>
 
         <?php
+        $activeCartQuery = "SELECT * FROM cart WHERE user_id = '$userId' AND status = 'active'";
+        $activeCartResult = $conn->query($activeCartQuery);
+
+        if ($activeCartResult->num_rows > 0) {
+            $activeCartRow = $activeCartResult->fetch_assoc();
+            $cartcode = $activeCartRow['cart_code'];
+            $cartId = $activeCartRow['cart_id'];
+            $sharedCartCode = $activeCartRow['shared_cart'];
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitOTP'])) {
             $submittedOTP = $_POST['cartOTP'];
 
             $checkOTPQuery = "SELECT * FROM cart WHERE cart_code = '$submittedOTP' and status='active'";
             $checkOTPResult = $conn->query($checkOTPQuery);
 
-            if ($checkOTPResult->num_rows > 0) {
+            if ($checkOTPResult->num_rows > 0 && $cartcode !== $submittedOTP) {
+
                 echo "Cart is accessed!";
                 $updateWrongOTPQuery = "UPDATE cart SET shared_cart = '$submittedOTP' WHERE cart_id = '$cartId'";
                 if ($conn->query($updateWrongOTPQuery) !== TRUE) {
@@ -144,7 +184,6 @@ if (isset($_SESSION['cart_id'])) {
         }
         ?>
         <?php
-
         $sql = "SELECT * FROM cartitems WHERE cart_id = '$cartId'";
         $result = $conn->query($sql);
 
@@ -193,14 +232,14 @@ if (isset($_SESSION['cart_id'])) {
             <?php endif; ?>
         </div>
 
-        <?php if ($result->num_rows > 0) : ?>
+        <?php if ($result->num_rows > 0 && $sharedCartCode === null) : ?>
             <a href="/SEMESTER 4 PROJECT/Templates/AddAddress.php"><button class="payment-btn">Add Address</button></a>
             <a href="/SEMESTER 4 PROJECT/Templates/SelectAddress.php"><button class="payment-btn">Select Address</button></a>
             <?php if ($addressSelected) : ?>
                 <a href="/SEMESTER 4 PROJECT/Templates/PaymentGateway.php"><button class="payment-btn">Check Out</button></a>
             <?php endif; ?>
         <?php else : ?>
-            <p>Please add items to your cart.</p>
+            <p>Please add items to your cart or check shared cart.</p>
         <?php endif; ?>
     </div>
 

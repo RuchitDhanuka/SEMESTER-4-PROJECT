@@ -74,29 +74,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $updateCartStatusQuery = "UPDATE cart SET status = 'inactive' WHERE cart_id = '$cartId'";
-    if ($conn->query($updateCartStatusQuery) !== TRUE) {
-        echo "Error updating cart status: " . $conn->error;
-        exit();
-    }
+    $paymentId = mt_rand(100000, 999999);
 
     $userId = $_SESSION['userid'];
     $orderStatus = "orderedplaced";
-    $insertOrderQuery = "INSERT INTO orders (cart_id, order_status, user_id, placed_at) VALUES ('$cartId', '$orderStatus', '$userId', NOW())";
-    if ($conn->query($insertOrderQuery) !== TRUE) {
-        echo "Error inserting order into orders table: " . $conn->error;
-        exit();
-    }
-
-    $paymentId = mt_rand(100000, 999999);
-
+    
     if ($paymentMode === 'wallet') {
         $checkBalanceQuery = "SELECT balance FROM userwallet WHERE user_id = '$userId'";
         $balanceResult = $conn->query($checkBalanceQuery);
-
+    
         if ($balanceResult->num_rows > 0) {
             $balanceRow = $balanceResult->fetch_assoc();
             $walletBalance = $balanceRow['balance'];
-
+    
             if ($walletBalance >= $cartTotal) {
                 $newBalance = $walletBalance - $cartTotal;
                 $updateBalanceQuery = "UPDATE userwallet SET balance = '$newBalance' WHERE user_id = '$userId'";
@@ -104,15 +94,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo "Error updating wallet balance: " . $conn->error;
                     exit();
                 }
+    
+                $insertOrderQuery = "INSERT INTO orders (cart_id, order_status, user_id, placed_at) VALUES ('$cartId', '$orderStatus', '$userId', NOW())";
+                if ($conn->query($insertOrderQuery) !== TRUE) {
+                    echo "Error inserting order into orders table: " . $conn->error;
+                    exit();
+                }
+                if ($conn->query($updateCartStatusQuery) !== TRUE) {
+                    echo "Error updating cart status: " . $conn->error;
+                    exit();
+                }
             } else {
-                echo "Insufficient balance in your wallet. Please choose another payment method.";
+                echo "<script>document.getElementById('insufficientBalanceModal').style.display = 'block';</script>";
                 exit();
             }
+            
+
         } else {
             echo "Error fetching wallet balance.";
             exit();
         }
+    } else {
+        $insertOrderQuery = "INSERT INTO orders (cart_id, order_status, user_id, placed_at) VALUES ('$cartId', '$orderStatus', '$userId', NOW())";
+        if ($conn->query($insertOrderQuery) !== TRUE) {
+            echo "Error inserting order into orders table: " . $conn->error;
+            exit();
+        }
+        if ($conn->query($updateCartStatusQuery) !== TRUE) {
+            echo "Error updating cart status: " . $conn->error;
+            exit();
+        }
     }
+    
 
     $insertPaymentQuery = "INSERT INTO payment (payment_id, order_id, payment_mode, amount, payment_time) VALUES ('$paymentId', LAST_INSERT_ID(), '$paymentMode', '$cartTotal', NOW())";
     if ($conn->query($insertPaymentQuery) !== TRUE) {
@@ -161,18 +174,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $itemId = $cartItem['item_id'];
             $quantity = $cartItem['quantity'];
     
-            // Retrieve the current quantity of the product from productinventory
             $productQuantityQuery = "SELECT product_quantity FROM productinventory WHERE product_id = '$itemId'";
             $productQuantityResult = $conn->query($productQuantityQuery);
     
             if ($productQuantityResult->num_rows > 0) {
                 $productQuantityRow = $productQuantityResult->fetch_assoc();
                 $currentQuantity = $productQuantityRow['product_quantity'];
-    
-                // Calculate the new quantity after deducting cart item quantity
                 $newQuantity = $currentQuantity - $quantity;
     
-                // Update the product quantity in productinventory
                 $updateQuantityQuery = "UPDATE productinventory SET product_quantity = '$newQuantity' WHERE product_id = '$itemId'";
                 if ($conn->query($updateQuantityQuery) !== TRUE) {
                     echo "Error updating product quantity: " . $conn->error;
@@ -204,6 +213,7 @@ function otp_generator($length = 4)
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -215,7 +225,6 @@ function otp_generator($length = 4)
     <link rel="stylesheet" href="/SEMESTER 4 PROJECT/Style/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
     <header class="gradient-bg">
         <nav>
@@ -274,8 +283,8 @@ function otp_generator($length = 4)
                     <div class="option">
                         <label for="card-payment">
                             <img src="/SEMESTER 4 PROJECT/Assets/Icons/bankcard.png" alt="Pay through Debit Card">
-                            <input type="radio" id="card-payment" name="payment-method" value="card">
-                            Pay through Card
+                            <input type="radio" id="card-payment" name="payment-method" value="bank">
+                            Pay to Bank Account
                         </label>
                     </div>
                     <div class="option">
@@ -292,7 +301,7 @@ function otp_generator($length = 4)
                         <div class="info-container">
                             <h3 id="additional-info-title">Additional Information</h3>
                             <p id="additional-info-text">No additional information available.</p>
-                            <input type="file" id="image-upload" accept="image/*" style="display: block; margin-top: 10px;">
+                            <input class="imageinput" type="file" id="image-upload" accept="image/*" style="display: block; margin-top: 10px;" required>
                             <button onclick="uploadImage()">Confirm</button>
                             <div id="image-preview"></div>
                         </div>
@@ -302,7 +311,7 @@ function otp_generator($length = 4)
             </form>
         </div>
     </div>
-    <div id="insufficientBalanceModal" class="modal">
+    <div id="insufficientBalanceModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Insufficient Balance</h2>
@@ -310,7 +319,6 @@ function otp_generator($length = 4)
         </div>
     </div>
     <footer class="footer">
-        <!-- Your footer content -->
         <div class="footer-section">
             <h3>Contact Us</h3>
             <p>Email: <a href="mailto:HomeHive@gmail.com">HomeHive@gmail.com</a></p>
@@ -340,48 +348,63 @@ function otp_generator($length = 4)
         </div>
     </footer>
     <script>
-        function closeAdditionalInfoDialog() {
-            var dialog = document.getElementById('additional-info-dialog');
-            dialog.style.display = 'none';
+    function closeAdditionalInfoDialog() {
+        var dialog = document.getElementById('additional-info-dialog');
+        dialog.style.display = 'none';
+    }
+
+    function showAdditionalInfo(paymentMethod) {
+        var dialog = document.getElementById('additional-info-dialog');
+        var title = document.getElementById('additional-info-title');
+        var text = document.getElementById('additional-info-text');
+        var inputButton = document.querySelector('.imageinput');
+
+        switch (paymentMethod) {
+            case 'cash':
+                title.innerText = 'Cash on Delivery';
+                text.innerText = 'Pay the amount in cash when your order is delivered.';
+                dialog.style.display = 'block'; 
+                inputButton.disabled=true;
+                break;
+            case 'upi':
+                title.innerText = 'UPI Payment';
+                text.innerText = 'Transfer the amount to given UPI ID \n UPI ID: ruchitdhanuka6@okhdfcbank';
+                dialog.style.display = 'block'; 
+                inputButton.disabled=false;
+                break;
+            case 'crypto':
+                title.innerText = 'Cryptocurrency Payment';
+                text.innerText = 'Transfer the amount to the provided cryptocurrency address. \n Crypto Address: 3FkenCiXpSLqD8L79intRNXUgjRoH9sjXa \n Accepted Crypto: BITCOIN/ETHERIUM';
+                dialog.style.display = 'block';
+                inputButton.disabled=false;
+                break;
+            case 'bank':
+                title.innerText = 'Card Payment';
+                text.innerText = 'Account Number: 123456789 \n IFSC Code: 1234567 \n Bank Name:XYZ Bank \n Branch: XYZ Branch';
+                dialog.style.display = 'block';
+                inputButton.disabled=false;
+                break;
+            case 'wallet':
+                title.innerText = 'Wallet Payment';
+                text.innerText = 'Payment will be deducted from your wallet balance.';
+                dialog.style.display = 'block'; 
+                inputButton.disabled=true;
+                break;
+            default:
+                title.innerText = 'Additional Information';
+                text.innerText = 'No additional information available.';
+                dialog.style.display = 'none'; 
         }
+    }
 
-        function showAdditionalInfo(paymentMethod) {
-            var dialog = document.getElementById('additional-info-dialog');
-            var title = document.getElementById('additional-info-title');
-            var text = document.getElementById('additional-info-text');
-
-            switch (paymentMethod) {
-                case 'cash':
-                    title.innerText = 'Cash on Delivery';
-                    text.innerText = 'Pay the amount in cash when your order is delivered.';
-                    break;
-                case 'upi':
-                    title.innerText = 'UPI Payment';
-                    text.innerText = 'Transfer the amount to UPI ID: yourupiaddress@example.com.';
-                    break;
-                case 'crypto':
-                    title.innerText = 'Cryptocurrency Payment';
-                    text.innerText = 'Transfer the amount to the provided cryptocurrency address.';
-                    break;
-                case 'card':
-                    title.innerText = 'Card Payment';
-                    text.innerText = 'Enter your card details and complete the payment.';
-                    break;
-                default:
-                    title.innerText = 'Additional Information';
-                    text.innerText = 'No additional information available.';
-            }
-
-            dialog.style.display = 'block';
-        }
-
-        document.querySelectorAll('input[name="payment-method"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                var paymentMethod = this.value;
-                showAdditionalInfo(paymentMethod);
-            });
+    document.querySelectorAll('input[name="payment-method"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            var paymentMethod = this.value;
+            showAdditionalInfo(paymentMethod);
         });
-    </script>
+    });
+</script>
+
 
 </body>
 

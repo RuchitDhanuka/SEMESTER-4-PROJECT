@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-username'])) {
   }
 }
 
-// Handle updating password
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-password'])) {
   $newPassword = $_POST['new-password'];
   $userid = $_SESSION['userid'];
@@ -186,13 +185,13 @@ $conn->close();
   <div class="container">
     <div class="profileimage">
       <img src="/SEMESTER 4 PROJECT/Assets/HomePageImages/HomeIcon.jpg" alt="Profile Picture" class="profile-picture">
-      <h2 class="name editable" onclick="editUsername()"><?php echo $currentUsername; ?></h2>
+      <h2 class="name editable" onclick="editUsername()"><?php echo ucfirst($currentUsername); ?></h2>
       <div class="email">
         <span class="label">Email: </span>
         <span class="email-address"><?php echo $currentUserEmail; ?></span>
       </div>
       <form id="usernameForm" class="username-form" method="POST" style="display: none;">
-        <input type="text" name="new-username" placeholder="New Username" value="<?php echo $currentUsername; ?>">
+        <input type="text" name="new-username" placeholder="New Username" value="">
         <button type="submit" name="update-username">Update Username</button>
       </form>
       <button class="change-username-btn" onclick="toggleUsernameForm()">Change Username</button>
