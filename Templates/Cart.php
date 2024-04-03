@@ -22,6 +22,8 @@ $userId = $_SESSION['userid'];
 $activeCartQuery = "SELECT * FROM cart WHERE user_id = '$userId' AND status = 'active'";
 $activeCartResult = $conn->query($activeCartQuery);
 
+$temporaryCartId = null;
+
 if ($activeCartResult->num_rows > 0) {
     $activeCartRow = $activeCartResult->fetch_assoc();
     $cartcode = $activeCartRow['cart_code'];
@@ -29,11 +31,24 @@ if ($activeCartResult->num_rows > 0) {
     $sharedCartCode = $activeCartRow['shared_cart'];
 
     $_SESSION['cart_id'] = $cartId;
+    if ($sharedCartCode !== null) {
+        $sharedCartQuery = "SELECT cart_id FROM cart WHERE cart_code = '$sharedCartCode'";
+        $sharedCartResult = $conn->query($sharedCartQuery);
+    
+        if ($sharedCartResult->num_rows > 0) {
+            $sharedCartRow = $sharedCartResult->fetch_assoc();
+            $temporaryCartId = $sharedCartRow['cart_id'];
+        }
+    }
+    else{
+        $temporaryCartId=$cartId;
+    }
 } else {
     $createCartQuery = "INSERT INTO cart (user_id, status, created_at) VALUES ('$userId', 'active', NOW())";
     if ($conn->query($createCartQuery) === TRUE) {
         $cartId = $conn->insert_id;
         $_SESSION['cart_id'] = $cartId;
+        $temporaryCartId = $cartId; // Set temporary cart ID to user's own cart ID
     } else {
         echo "Error creating cart: " . $conn->error;
         exit();
@@ -43,7 +58,7 @@ if ($activeCartResult->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['removeProductId'])) {
     $removeProductId = $_POST['removeProductId'];
 
-    $removeProductQuery = "DELETE FROM cartitems WHERE cart_id = '$cartId' AND item_id = '$removeProductId'";
+    $removeProductQuery = "DELETE FROM cartitems WHERE cart_id = '$temporaryCartId' AND item_id = '$removeProductId'";
     if ($conn->query($removeProductQuery) !== TRUE) {
         echo "Error removing product from cart: " . $conn->error;
     }
@@ -51,8 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['removeProductId'])) {
     $updateTotalQuery = "UPDATE cart SET cart_total = (
         SELECT SUM(product_price * quantity) FROM product
         JOIN cartitems ON product.product_id = cartitems.item_id
-        WHERE cartitems.cart_id = '$cartId'
-    ) WHERE cart_id = '$cartId'";
+        WHERE cartitems.cart_id = '$temporaryCartId'
+    ) WHERE cart_id = '$temporaryCartId'";
     if ($conn->query($updateTotalQuery) !== TRUE) {
         echo "Error updating cart total: " . $conn->error;
     }
@@ -107,12 +122,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clearSharedCart']) && 
         }
     </script>
 </head>
+<style>
+    .button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 9px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
 
+.button:hover {
+    background-color: #45a049;
+}
+</style>
 <body>
     <header class="gradient-bg">
         <nav>
             <div class="logo">
-            <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
+                <a href="/SEMESTER 4 PROJECT/Templates/home_after_login.php">HomeHive</a>
 
             </div>
             <ul class="nav-links">
@@ -185,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clearSharedCart']) && 
         }
         ?>
         <?php
-        $sql = "SELECT * FROM cartitems WHERE cart_id = '$cartId'";
+        $sql = "SELECT * FROM cartitems WHERE cart_id = '$temporaryCartId'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -222,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clearSharedCart']) && 
         <div class="total">
             <?php if ($result->num_rows > 0) : ?>
                 <?php
-                $totalSql = "SELECT SUM(product_price * quantity) AS total FROM product JOIN cartitems ON product.product_id = cartitems.item_id WHERE cartitems.cart_id = '$cartId'";
+                $totalSql = "SELECT SUM(product_price * quantity) AS total FROM product JOIN cartitems ON product.product_id = cartitems.item_id WHERE cartitems.cart_id = '$temporaryCartId'";
                 $totalResult = $conn->query($totalSql);
 
                 if ($totalResult->num_rows > 0) {
