@@ -1,7 +1,7 @@
-#Project Overview:
+**Project Overview:**
 Welcome to our innovative e-commerce platform! Developed as a college project, this platform showcases cutting-edge technologies and features aimed at delivering a seamless shopping experience while prioritizing security and user privacy.
 
-#Key Features:
+**Key Features:**
 OTP-based Cart Sharing: Collaborate effortlessly with friends and family by sharing your shopping cart securely via OTP verification.
 Secure Database Management: Our platform ensures the privacy and integrity of user data through robust database management practices.
 User-Friendly Interface: Enjoy a smooth and intuitive shopping experience with our user-friendly interface designed to enhance usability.
